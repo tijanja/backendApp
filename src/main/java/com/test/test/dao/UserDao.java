@@ -22,7 +22,8 @@ public class UserDao {
     private LocalDate dateRegistered;
     private Integer verified;
     private LocalDate dateDeactivated;
-    private Integer status;
+    @Column(length = 1)
+    private Integer status = 0;
 
     public UserDao(){
 
@@ -36,6 +37,7 @@ public class UserDao {
         this.password = password;
         this.role = role;
         this.dateRegistered = LocalDate.now();
+        this.status = 0;
     }
 
     public String getTitle() {

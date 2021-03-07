@@ -8,4 +8,7 @@ public interface UserRepository extends JpaRepository<UserDao, Long> {
 
     @Query(value="SELECT * FROM users u WHERE u.email= :email",nativeQuery=true)
     UserDao findUseByEmail(@Param("email") String email);
+
+    @Query(value="UPDATE users set status = 1 WHERE id= :id limit 1",nativeQuery=true)
+    void deactivateUser(@Param("id") Long id);
 }

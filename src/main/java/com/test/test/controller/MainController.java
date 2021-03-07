@@ -16,16 +16,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -122,6 +117,27 @@ public class MainController {
                     updatedUser.setPassword(null);
                     return updatedUser;
                 }).get();
+    }
+
+    @DeleteMapping("/user/{id}")
+    public Map<String,String> deleteUser(@PathVariable Long id){
+        UserDao deletedUser = userService.getUserById(id).map(userDao -> {
+            userDao.setStatus(1);
+            return userService.save(userDao);
+        }).get();
+
+        if(deletedUser.getStatus() == 1){
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message","success");
+            return response;
+        }
+
+        userService.deleteUser(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message","error deleting user");
+
+        return response;
     }
 
     public void sendmail(){
