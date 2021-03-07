@@ -2,6 +2,8 @@
 This is a sample Java / Gradle / Spring Boot (version 1.0) application. An appication that has a feature for the creation and managment of a user account.
 ## How to Run 
 This application is packaged as a jar which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. You run it using the ```java -jar``` command.
+
+
 * Clone this repository 
 * Make sure you are using JDK 1.8 and Gradle 6.x
 * You can build the project and run the tests by running```./gradlew build``` and ```./gradlew test```
@@ -77,4 +79,3 @@ RESPONSE:
 ```
 ### To view Swagger 2 API docs
 Run the server and browse to localhost:80/swagger-ui.html
-
