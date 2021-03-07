@@ -2,10 +2,10 @@
 This is a sample Java / Gradle / Spring Boot (version 1.0) application. An appication that has a feature for the creation and managment of a user account.
 ## How to Run 
 This application is packaged as a jar which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. You run it using the ```java -jar``` command.
-* Clone this repository 
-* Make sure you are using JDK 1.8 and Gradle 6.x
-* You can build the project and run the tests by running```./gradlew build``` and ```./gradlew test```
-* Once successfully built, you can run the application by
+*. Clone this repository 
+*. Make sure you are using JDK 1.8 and Gradle 6.x
+*. You can build the project and run the tests by running```./gradlew build``` and ```./gradlew test```
+*. Once successfully built, you can run the application by
 ```java -jar build/libs/backendApp-0.0.1-SNAPSHOT.jar```
 
 Once the application runs you should see something like this
