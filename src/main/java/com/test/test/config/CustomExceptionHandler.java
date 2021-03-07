@@ -7,18 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-    Logger log = LoggerFactory.getLogger(CustomExceptionHandler.class);
-    Map<String,String> error = new HashMap<>();
+    private Logger log = LoggerFactory.getLogger(CustomExceptionHandler.class);
+    private Map<String,String> error = new HashMap<>();
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
 
