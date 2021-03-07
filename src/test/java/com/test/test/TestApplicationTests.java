@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -78,6 +79,12 @@ class TestApplicationTests {
 
 		UserDao actual = mainController.updateUser(userDao,Long.valueOf(2));
 		assertEquals("Tijanja",actual.getFirstName(),"user first name should be updated to 'Tijanja'");
+	}
+
+	@Test
+	void deleteUserTest(){
+		Map<String, String> response = mainController.deleteUser(Long.valueOf(3));
+		assertEquals("success",response.get("message"),"Test should return success");
 	}
 
 }
