@@ -1,5 +1,7 @@
 package com.test.test.controller;
 
+import com.test.test.config.UserNotSavedException;
+import com.test.test.dao.UserDao;
 import com.test.test.dao.UserServiceImpl;
 import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -40,5 +43,20 @@ public class MainController {
         String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/user")
+    public UserDao createUser(@RequestBody UserDao userDao){
+
+        if(userDao == null) throw new NullPointerException("User can't be null");
+        if(userDao.getEmail().isEmpty() || !userDao.getEmail().contains("@")) throw new UnsupportedOperationException("Unsupported email format");
+        if(userDao.getPassword().isEmpty()) throw new NullPointerException("Password can't be empty");
+        if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new NullPointerException("Phone number should be 11 digits");
+
+        userDao.setDateRegistered(LocalDate.now());
+        UserDao savedUser = userService.save(userDao);
+        if(savedUser==null) throw new UserNotSavedException("Error user not saved");
+
+        return savedUser;
     }
 }
