@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestApplicationTests {
 
 	@Autowired
-	MainController mainController;
+	private MainController mainController;
 
 	@Autowired
-	AuthUser userAuth;
+	private AuthUser userAuth;
 
 	@Autowired
-	JwtTokenUtil jwtTokenUtil;
+	private JwtTokenUtil jwtTokenUtil;
 
 	@Test
 	void authtokenTest() {

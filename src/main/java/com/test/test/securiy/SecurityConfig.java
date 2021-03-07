@@ -15,13 +15,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Autowired
-    RequestFilter requestFilter;
+    private RequestFilter requestFilter;
 
     @Autowired
-    AuthUser authUser;
+    private AuthUser authUser;
 
     @Override
     @Bean

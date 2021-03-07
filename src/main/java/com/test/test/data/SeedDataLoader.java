@@ -14,7 +14,7 @@ public class SeedDataLoader {
     private static final Logger log = LoggerFactory.getLogger(SeedDataLoader.class);
 
     @Bean
-    CommandLineRunner initDatabase(UserServiceImpl repository) {
+    public CommandLineRunner initDatabase(UserServiceImpl repository) {
 
         return args -> {
             if(repository.getAll().isEmpty()) {

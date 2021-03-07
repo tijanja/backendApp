@@ -18,7 +18,7 @@ import java.util.Set;
 public class AuthUser implements UserDetailsService {
 
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserDao userDAO = userService.findUserByEmail(email);
