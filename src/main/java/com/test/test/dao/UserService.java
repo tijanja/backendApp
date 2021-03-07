@@ -15,7 +15,7 @@ public interface UserService {
     // Method to update the user data
     UserDao update(UserDao userDao);
     // Method to retrieve user data by Id
-    UserDao getUserById(UserDao userDao);
+    List<UserDao> getAll();
     // Method to deactivate a user by Id
     void deleteUser(Long id);
     //get user by their email address
