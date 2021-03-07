@@ -23,7 +23,7 @@ public class UserDao {
     @Column(unique = true,nullable = false,length = 11,updatable = false)
     private String phone;
     private String password;
-    private String role;
+    private String role="USER";
     private LocalDate dateRegistered;
     private Integer verified;
     private LocalDate dateDeactivated;
@@ -94,11 +94,11 @@ public class UserDao {
     }
 
     public String getRole() {
-        return role;
+        return role.toUpperCase();
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.role = role.toUpperCase();
     }
 
     public LocalDate getDateRegistered() {

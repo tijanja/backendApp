@@ -8,6 +8,7 @@ import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -68,10 +69,8 @@ public class MainController {
         if(userDao.getPassword().isEmpty()) throw new IllegalArgumentException("Password can't be empty");
         if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new IllegalArgumentException("Phone number should be 11 digits");
 
-        if(userDao.getRole().isEmpty()){
-            userDao.setRole("Admin");
-        }
         userDao.setDateRegistered(LocalDate.now());
+        if(userService.findUserByEmail(userDao.getEmail()) != null) throw new DuplicateKeyException("Duplicate email");
         UserDao savedUser = userService.save(userDao);
         if(savedUser==null) throw new UserNotSavedException("Error user not saved");
 

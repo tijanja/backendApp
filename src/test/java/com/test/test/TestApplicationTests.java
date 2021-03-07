@@ -2,7 +2,6 @@ package com.test.test;
 
 import com.test.test.controller.MainController;
 import com.test.test.dao.UserDao;
-import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtTokenUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,6 @@ class TestApplicationTests {
 	private MainController mainController;
 
 	@Autowired
-	private AuthUser userAuth;
-
-	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Test
@@ -45,9 +41,9 @@ class TestApplicationTests {
 		UserDao userDao = new UserDao();
 		userDao.setFirstName("Frank");
 		userDao.setLastName("Akinde");
-		userDao.setEmail("Frank007@gmail.com");
+		userDao.setEmail("swagger7@gmail.com");
 		userDao.setPassword("Project123");
-		userDao.setPhone("08060000000");
+		userDao.setPhone("08060000001");
 		assertEquals(userDao,mainController.createUser(userDao),"Return value should be instance of the user saved");
 	}
 
