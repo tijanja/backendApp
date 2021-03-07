@@ -1,6 +1,7 @@
 package com.test.test;
 
 import com.test.test.controller.MainController;
+import com.test.test.dao.UserDao;
 import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtTokenUtil;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,17 @@ class TestApplicationTests {
 			condition = true;
 		}
 		assertTrue(condition,"Should return token");
+	}
+
+	@Test
+	void userRegistrationTest() {
+		UserDao userDao = new UserDao();
+		userDao.setFirstName("Frank");
+		userDao.setLastName("Akinde");
+		userDao.setEmail("Frank007@gmail.com");
+		userDao.setPassword("Project123");
+		userDao.setPhone("08060000000");
+		assertEquals(userDao,mainController.createUser(userDao),"Return value should be instance of the user saved");
 	}
 
 }
