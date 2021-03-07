@@ -93,19 +93,19 @@ public class MainController {
                     if(userDao.getEmail()!=null && !userDao.getEmail().isEmpty()){
                         userDao1.setEmail(userDao.getEmail());
                     }
-                    if(userDao.getFirstName()!=null && !userDao.getFirstName().isEmpty()){
+                    else if(userDao.getFirstName()!=null && !userDao.getFirstName().isEmpty()){
                         userDao1.setFirstName(userDao.getFirstName());
                     }
-                    if(userDao.getLastName()!=null && !userDao.getLastName().isEmpty()){
+                    else if(userDao.getLastName()!=null && !userDao.getLastName().isEmpty()){
                         userDao1.setLastName(userDao.getLastName());
                     }
-                    if(userDao.getRole()!=null && !userDao.getRole().isEmpty()){
+                    else if(userDao.getRole()!=null && !userDao.getRole().isEmpty()){
                         userDao1.setRole(userDao.getRole());
                     }
-                    if(userDao.getPhone()!=null && !userDao.getPhone().isEmpty()){
+                    else if(userDao.getPhone()!=null && !userDao.getPhone().isEmpty()){
                         userDao1.setPhone(userDao.getPhone());
                     }
-                    if(userDao.getTitle()!=null && !userDao.getTitle().isEmpty()){
+                    else if(userDao.getTitle()!=null && !userDao.getTitle().isEmpty()){
                         userDao1.setTitle(userDao.getTitle());
                     }
                     UserDao updatedUser = userService.save(userDao1);
