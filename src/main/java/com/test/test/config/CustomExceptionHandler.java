@@ -35,6 +35,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public final ResponseEntity<Object> userIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+
+        log.error(ex.getMessage());
+        error.put("error",ex.getLocalizedMessage());
+        return new ResponseEntity(error, HttpStatus.NOT_IMPLEMENTED);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public final ResponseEntity<Object> userDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
 

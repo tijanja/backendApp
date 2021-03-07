@@ -48,7 +48,7 @@ public class MainController {
     @PostMapping("/user")
     public UserDao createUser(@RequestBody UserDao userDao){
 
-        if(userDao == null) throw new NullPointerException("User can't be null");
+        if(userDao == null) throw new IllegalArgumentException("User can't be null");
         if(userDao.getEmail().isEmpty() || !userDao.getEmail().contains("@")) throw new UnsupportedOperationException("Unsupported email format");
         if(userDao.getPassword().isEmpty()) throw new NullPointerException("Password can't be empty");
         if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new NullPointerException("Phone number should be 11 digits");
