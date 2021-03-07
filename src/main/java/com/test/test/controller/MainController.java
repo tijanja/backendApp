@@ -123,6 +123,7 @@ public class MainController {
     public Map<String,String> deleteUser(@PathVariable Long id){
         UserDao deletedUser = userService.getUserById(id).map(userDao -> {
             userDao.setStatus(1);
+            userDao.setDateDeactivated(LocalDate.now());
             return userService.save(userDao);
         }).get();
 
