@@ -7,16 +7,18 @@ import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -58,5 +60,23 @@ public class MainController {
         if(savedUser==null) throw new UserNotSavedException("Error user not saved");
 
         return savedUser;
+    }
+
+    @GetMapping("/users")
+    public List<UserDao> getUsers(){
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<UserDao> list = userService.getUserList(pageable);
+        return list.getContent();
+    }
+
+
+    @GetMapping("/user/{email}")
+    public UserDao getUser(@PathVariable String email){
+
+        UserDao userDao = userService.findUserByEmail(email);
+        if(userDao == null) throw new UsernameNotFoundException("User not found");
+
+        return userDao;
+
     }
 }
