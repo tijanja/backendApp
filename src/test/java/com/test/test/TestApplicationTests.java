@@ -70,4 +70,14 @@ class TestApplicationTests {
 		assertEquals(expected,userDao.getEmail(),"Returned email should be the same as the value in expected");
 	}
 
+	@Test
+	void userUpdateTest(){
+
+		UserDao userDao = new UserDao();
+		userDao.setFirstName("Tijanja");
+
+		UserDao actual = mainController.updateUser(userDao,Long.valueOf(2));
+		assertEquals("Tijanja",actual.getFirstName(),"user first name should be updated to 'Tijanja'");
+	}
+
 }

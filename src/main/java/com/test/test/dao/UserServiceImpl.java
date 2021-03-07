@@ -1,5 +1,7 @@
 package com.test.test.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,9 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserRepository userRepository;
@@ -47,5 +52,10 @@ public class UserServiceImpl implements UserService {
     public UserDao findUserByEmail(String email) {
 
         return userRepository.findUseByEmail(email);
+    }
+
+    @Override
+    public Optional<UserDao> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 /** User Service an interface to simplify data persist process */
 
@@ -20,4 +21,6 @@ public interface UserService {
     void deleteUser(Long id);
     //get user by their email address
     UserDao findUserByEmail(String clientId);
+    //get a user by id
+    Optional<UserDao> getUserById(Long id);
 }

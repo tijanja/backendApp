@@ -1,5 +1,6 @@
 package com.test.test.controller;
 
+import com.test.test.config.EmailServiceImpl;
 import com.test.test.config.UserNotSavedException;
 import com.test.test.dao.UserDao;
 import com.test.test.dao.UserServiceImpl;
@@ -55,6 +56,9 @@ public class MainController {
         if(userDao.getPassword().isEmpty()) throw new IllegalArgumentException("Password can't be empty");
         if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new IllegalArgumentException("Phone number should be 11 digits");
 
+        if(userDao.getRole().isEmpty()){
+            userDao.setRole("Admin");
+        }
         userDao.setDateRegistered(LocalDate.now());
         UserDao savedUser = userService.save(userDao);
         if(savedUser==null) throw new UserNotSavedException("Error user not saved");
@@ -78,5 +82,42 @@ public class MainController {
 
         return userDao;
 
+    }
+
+    @PutMapping("/user/{id}")
+    public UserDao updateUser(@RequestBody UserDao userDao, @PathVariable Long id){
+        System.out.print(userDao.toString());
+        return userService
+                .getUserById(id)
+                .map(userDao1 -> {
+                    if(userDao.getEmail()!=null && !userDao.getEmail().isEmpty()){
+                        userDao1.setEmail(userDao.getEmail());
+                    }
+                    if(userDao.getFirstName()!=null && !userDao.getFirstName().isEmpty()){
+                        userDao1.setFirstName(userDao.getFirstName());
+                    }
+                    if(userDao.getLastName()!=null && !userDao.getLastName().isEmpty()){
+                        userDao1.setLastName(userDao.getLastName());
+                    }
+                    if(userDao.getRole()!=null && !userDao.getRole().isEmpty()){
+                        userDao1.setRole(userDao.getRole());
+                    }
+                    if(userDao.getPhone()!=null && !userDao.getPhone().isEmpty()){
+                        userDao1.setPhone(userDao.getPhone());
+                    }
+                    if(userDao.getTitle()!=null && !userDao.getTitle().isEmpty()){
+                        userDao1.setTitle(userDao.getTitle());
+                    }
+                    UserDao updatedUser = userService.save(userDao1);
+                    updatedUser.setPassword(null);
+                    return updatedUser;
+                }).get();
+    }
+
+    @Autowired
+    EmailServiceImpl emailService;
+
+    public void sendmail(){
+        emailService.sendSimpleMessage("adetunji.akinde@techadvance.ng","test", "testing....");
     }
 }
