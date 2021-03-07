@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -44,6 +46,26 @@ class TestApplicationTests {
 		userDao.setPassword("Project123");
 		userDao.setPhone("08060000000");
 		assertEquals(userDao,mainController.createUser(userDao),"Return value should be instance of the user saved");
+	}
+
+	@Test
+	void getAllusersTest(){
+
+		boolean condition = false;
+		List<UserDao> pages = mainController.getUsers();
+		System.out.print(pages.size());
+		if(pages.size()>0) {
+			condition = true;
+		}
+		assertTrue(condition,"condition should be true");
+
+	}
+
+	@Test
+	void getUserByEmail(){
+		String expected = "adetunjiakinde@gmail.com";
+		UserDao userDao = mainController.getUser(expected);
+		assertEquals(expected,userDao.getEmail(),"Returned email should be the same as the value in expected");
 	}
 
 }
