@@ -87,3 +87,14 @@ RESPONSE:
 ### To view Swagger 2 API docs
 
 Run the server and browse to [localhost:80/swagger-ui.html](localhost:80/swagger-ui.html)
+
+### Email server configuration
+
+Enter your email server connection details in the application.properties file
+
+```
+mail.server.host = smtp.gmail.com
+mail.server.port = 587
+mail.server.userId = your email id
+mail.server.password = password
+```
