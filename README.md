@@ -98,3 +98,4 @@ mail.server.port = 587
 mail.server.userId = your email id
 mail.server.password = password
 ```
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/99078fa85ec8482cab88a1cee4cde9af)](https://www.codacy.com/gh/tijanja/backendApp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tijanja/backendApp&amp;utm_campaign=Badge_Grade)
