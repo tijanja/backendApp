@@ -4,9 +4,12 @@ import com.test.test.config.EmailServiceImpl;
 import com.test.test.config.UserNotSavedException;
 import com.test.test.dao.UserDao;
 import com.test.test.dao.UserServiceImpl;
+import com.test.test.model.JwtRequest;
 import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
@@ -52,10 +55,10 @@ public class MainController {
     private EmailServiceImpl emailService;
 
     @PostMapping("/oauth/token")
-    public ResponseEntity<?> getOauth2Token(@RequestBody Map<String, String> payload){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.get("email"),payload.get("password")));
+    public ResponseEntity<JwtResponse> getOauth2Token(@RequestBody JwtRequest jwtRequest){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getEmail(),jwtRequest.getPassword()));
 
-        final UserDetails userDetails = authUser.loadUserByUsername(payload.get("email"));
+        final UserDetails userDetails = authUser.loadUserByUsername(jwtRequest.getEmail());
         String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -86,8 +89,8 @@ public class MainController {
 
 
     @GetMapping("/user/{email}")
-    public UserDao getUser(@PathVariable String email){
-
+    @ApiOperation(value = "The Api is for getting a user by email")
+    public UserDao getUserByEmail(@PathVariable String email){
         UserDao userDao = userService.findUserByEmail(email);
         if(userDao == null) throw new UsernameNotFoundException("User not found");
 

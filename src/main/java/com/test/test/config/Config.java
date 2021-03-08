@@ -28,7 +28,6 @@ public class Config {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors.ant("/api/*"))
                 .apis(RequestHandlerSelectors.basePackage("com.test.test"))
                 .build()
                 .apiInfo( setApiInfo());

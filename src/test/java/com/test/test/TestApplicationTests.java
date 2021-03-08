@@ -63,7 +63,7 @@ class TestApplicationTests {
 	@Test
 	void getUserByEmail(){
 		String expected = "adetunjiakinde@gmail.com";
-		UserDao userDao = mainController.getUser(expected);
+		UserDao userDao = mainController.getUserByEmail(expected);
 		assertEquals(expected,userDao.getEmail(),"Returned email should be the same as the value in expected");
 	}
 
