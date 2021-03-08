@@ -76,6 +76,9 @@ public class MainController {
         UserDao savedUser = userService.save(userDao);
         if(savedUser==null) throw new UserNotSavedException("Error user not saved");
 
+        //send On-boarding email to user email address
+        sendOnboardingMail(savedUser);
+
         return savedUser;
     }
 
@@ -139,6 +142,10 @@ public class MainController {
 
             Map<String, String> response = new HashMap<>();
             response.put("message","success");
+
+            //send Off-boarding email to deactivated user
+            sendOffboardingMail(deletedUser);
+
             return response;
         }
 
@@ -149,7 +156,21 @@ public class MainController {
         return response;
     }
 
-    public void sendmail(){
-        emailService.sendSimpleMessage("adetunji.akinde@techadvance.ng","test", "testing....");
+    public void sendOnboardingMail(UserDao userDao){
+        String subject = "On-Boarding Notification";
+        String message = "Hi "+userDao.getFirstName()+",\n"+
+                "This mail is to inform you that a user account with "+userDao.getRole()+
+                "access has been created for you.\n"+
+                "Cheers";
+        emailService.sendSimpleMessage(userDao.getEmail(),subject, message);
+    }
+
+    public void sendOffboardingMail(UserDao userDao){
+        String subject = "On-Boarding Notification";
+        String message = "Hi "+userDao.getFirstName()+",\n"+
+                "Your user account with "+userDao.getRole()+
+                "access has been deactivated.\n"+
+                "Regards";
+        emailService.sendSimpleMessage(userDao.getEmail(),subject, message);
     }
 }

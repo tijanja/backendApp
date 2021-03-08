@@ -83,4 +83,13 @@ class TestApplicationTests {
 		assertEquals("success",response.get("message"),"Test should return success");
 	}
 
+	@Test
+	void sendEmailTest(){
+		UserDao userDao = new UserDao();
+		userDao.setFirstName("Frank");
+		userDao.setLastName("Akinde");
+		userDao.setEmail("adetunjiakinde@gmail.com");
+		mainController.sendOnboardingMail(userDao);
+	}
+
 }

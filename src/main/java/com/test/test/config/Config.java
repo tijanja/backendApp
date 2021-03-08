@@ -1,5 +1,6 @@
 package com.test.test.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,12 +11,24 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.servlet.ServletContext;
 import java.util.Collections;
 import java.util.Properties;
 
 @Configuration
 public class Config {
+
+    @Value("${mail.server.host}")
+    private String host;
+    @Value("${mail.server.port}")
+    private int port;
+    @Value("${mail.server.userId}")
+    private String userId;
+    @Value("${mail.server.password}")
+    private String password;
 
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder(){
@@ -46,18 +59,20 @@ public class Config {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
 
-        mailSender.setUsername("goodluckjonathan.estate@gmail.com");
-        mailSender.setPassword("Pr0j3ct12e");
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+
+        mailSender.setUsername(userId);
+        mailSender.setPassword(password);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
+
 
         return mailSender;
     }
