@@ -71,10 +71,18 @@ public class MainController {
     @PostMapping("/user")
     public UserDao createUser(@RequestBody UserDao userDao){
 
-        if(userDao == null) throw new IllegalArgumentException("User can't be null");
-        if(userDao.getEmail().isEmpty() || !userDao.getEmail().contains("@")) throw new UnsupportedOperationException("Unsupported email format");
-        if(userDao.getPassword().isEmpty()) throw new IllegalArgumentException("Password can't be empty");
-        if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new IllegalArgumentException("Phone number should be 11 digits");
+        if(userDao == null) {
+            throw new IllegalArgumentException("User can't be null");
+        }
+        else if(userDao.getEmail().isEmpty() || !userDao.getEmail().contains("@")) {
+            throw new UnsupportedOperationException("Unsupported email format");
+        }
+        else if(userDao.getPassword().isEmpty()){
+            throw new IllegalArgumentException("Password can't be empty");
+        }
+        else if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11){
+            throw new IllegalArgumentException("Phone number should be 11 digits");
+        }
 
         userDao.setDateRegistered(LocalDate.now());
         if(userService.findUserByEmail(userDao.getEmail()) != null){
