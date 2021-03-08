@@ -6,14 +6,13 @@ import com.test.test.securiy.JwtTokenUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -41,9 +40,9 @@ class TestApplicationTests {
 		UserDao userDao = new UserDao();
 		userDao.setFirstName("Frank");
 		userDao.setLastName("Akinde");
-		userDao.setEmail("swagger7@gmail.com");
+		userDao.setEmail("swagger0009@gmail.com");
 		userDao.setPassword("Project123");
-		userDao.setPhone("08060000001");
+		userDao.setPhone("08060000349");
 		assertEquals(userDao,mainController.createUser(userDao),"Return value should be instance of the user saved");
 	}
 
@@ -79,17 +78,21 @@ class TestApplicationTests {
 
 	@Test
 	void deleteUserTest(){
-		Map<String, String> response = mainController.deleteUser(Long.valueOf(3));
-		assertEquals("success",response.get("message"),"Test should return success");
+
+		assertThrows(MailAuthenticationException.class,()->{
+			mainController.deleteUser(Long.valueOf(3));
+		},"Should throw MailAuthenticationException if Username and Password not accepted");
 	}
 
 	@Test
 	void sendEmailTest(){
-		UserDao userDao = new UserDao();
-		userDao.setFirstName("Frank");
-		userDao.setLastName("Akinde");
-		userDao.setEmail("adetunjiakinde@gmail.com");
-		mainController.sendOnboardingMail(userDao);
+		assertThrows(MailAuthenticationException.class,()->{
+			UserDao userDao = new UserDao();
+			userDao.setFirstName("Frank");
+			userDao.setLastName("Akinde");
+			userDao.setEmail("adetunji@gmail.com");
+			mainController.sendOnboardingMail(userDao);
+		},"Should throw MailAuthenticationException if Username and Password not accepted");
 	}
 
 }

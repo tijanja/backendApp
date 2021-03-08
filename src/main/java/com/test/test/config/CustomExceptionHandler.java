@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -45,6 +46,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public final ResponseEntity<Object> userDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+
+        log.error(ex.getMessage());
+        error.put("error",ex.getLocalizedMessage());
+        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MailAuthenticationException.class)
+    public final ResponseEntity<Object> mailAuthenticationException(MailAuthenticationException ex, WebRequest request) {
 
         log.error(ex.getMessage());
         error.put("error",ex.getLocalizedMessage());

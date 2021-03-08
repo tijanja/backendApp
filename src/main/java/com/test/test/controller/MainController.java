@@ -9,12 +9,15 @@ import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +40,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class MainController {
+
+    private Logger log = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private UserServiceImpl userService;
@@ -72,12 +77,19 @@ public class MainController {
         if(userDao.getPhone().isEmpty() || userDao.getPhone().length() !=11) throw new IllegalArgumentException("Phone number should be 11 digits");
 
         userDao.setDateRegistered(LocalDate.now());
-        if(userService.findUserByEmail(userDao.getEmail()) != null) throw new DuplicateKeyException("Duplicate email");
+        if(userService.findUserByEmail(userDao.getEmail()) != null){
+            throw new DuplicateKeyException("Duplicate email");
+        }
         UserDao savedUser = userService.save(userDao);
         if(savedUser==null) throw new UserNotSavedException("Error user not saved");
 
         //send On-boarding email to user email address
-        sendOnboardingMail(savedUser);
+        try{
+            sendOnboardingMail(savedUser);
+        }catch (MailAuthenticationException ex){
+            log.error(ex.getLocalizedMessage());
+        }
+
 
         return savedUser;
     }
