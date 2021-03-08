@@ -8,7 +8,6 @@ import com.test.test.model.JwtRequest;
 import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
