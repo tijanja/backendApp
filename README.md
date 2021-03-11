@@ -37,7 +37,7 @@ The API Base URL is http://3.209.193.90:9999
 ### Demo User Credentials
 
 Email: joebiden@gmail.com
-Password: Project123
+Password: biden_usa
 
 ### Authenticaticate
 
