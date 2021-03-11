@@ -48,6 +48,8 @@ RESPONSE:
 {
     "token":"JWT token"
 }
+
+subsequent API call most have the Bearer <Token> as Authorization at the request header
 ```
 
 ### Create/Regiser a User Account
@@ -56,6 +58,7 @@ RESPONSE:
 POST /api/user
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer <Token>
 
 REQUEST:
 {
