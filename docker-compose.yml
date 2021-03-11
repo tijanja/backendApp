@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: 'Project123'
       MYSQL_ROOT_PASSWORD: 'Project123'
     ports:
-      - 3306:3306
+      - 3306
     expose:
       - 3306
     restart: unless-stopped
