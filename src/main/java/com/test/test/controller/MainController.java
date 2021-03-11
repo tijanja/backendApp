@@ -8,6 +8,7 @@ import com.test.test.model.JwtRequest;
 import com.test.test.securiy.AuthUser;
 import com.test.test.securiy.JwtResponse;
 import com.test.test.securiy.JwtTokenUtil;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +17,14 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
@@ -69,6 +64,7 @@ public class MainController {
     }
 
     @PostMapping("/user")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     public UserDao createUser(@RequestBody UserDao userDao){
 
         if(userDao == null) {
@@ -97,14 +93,13 @@ public class MainController {
         }catch (MailAuthenticationException ex){
             log.error(ex.getLocalizedMessage());
         }
-
-
         return savedUser;
     }
 
     @GetMapping("/users")
-    public List<UserDao> getUsers(){
-        Pageable pageable = PageRequest.of(0, 10);
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    public List<UserDao> getUsers(@RequestParam("page") int page,@RequestParam("size") int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         Page<UserDao> list = userService.getUserList(pageable);
         return list.getContent();
     }
@@ -112,6 +107,7 @@ public class MainController {
 
     @GetMapping("/user/{email}")
     @ApiOperation(value = "The Api is for getting a user by email")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     public UserDao getUserByEmail(@PathVariable String email){
         UserDao userDao = userService.findUserByEmail(email);
         if(userDao == null) throw new UsernameNotFoundException("User not found");
@@ -121,6 +117,7 @@ public class MainController {
     }
 
     @PutMapping("/user/{id}")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     public UserDao updateUser(@RequestBody UserDao userDao, @PathVariable Long id){
         System.out.print(userDao.toString());
         return userService
@@ -151,6 +148,7 @@ public class MainController {
     }
 
     @DeleteMapping("/user/{id}")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     public Map<String,String> deleteUser(@PathVariable Long id){
         UserDao deletedUser = userService.getUserById(id).map(userDao -> {
             userDao.setStatus(1);
@@ -163,8 +161,13 @@ public class MainController {
             Map<String, String> response = new HashMap<>();
             response.put("message","success");
 
-            //send Off-boarding email to deactivated user
-            sendOffboardingMail(deletedUser);
+            try{
+                //send Off-boarding email to deactivated user
+                sendOffboardingMail(deletedUser);
+            }catch (MailAuthenticationException ex){
+                log.error(ex.getLocalizedMessage());
+            }
+
 
             return response;
         }

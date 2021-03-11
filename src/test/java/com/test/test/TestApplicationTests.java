@@ -50,7 +50,7 @@ class TestApplicationTests {
 	void getAllusersTest(){
 
 		boolean condition = false;
-		List<UserDao> pages = mainController.getUsers();
+		List<UserDao> pages = mainController.getUsers(0,10);
 		System.out.print(pages.size());
 		if(pages.size()>0) {
 			condition = true;
