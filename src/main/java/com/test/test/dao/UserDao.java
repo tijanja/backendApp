@@ -1,5 +1,7 @@
 package com.test.test.dao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class UserDao {
     private String email;
     @Column(unique = true,nullable = false,length = 11,updatable = false)
     private String phone;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String role="USER";
     private LocalDate dateRegistered;
