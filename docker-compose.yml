@@ -1,0 +1,39 @@
+version: '3.1'
+services:
+  mysql-quick:
+    container_name: mysql-quick
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'demotest'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'Project123'
+      MYSQL_ROOT_PASSWORD: 'Project123'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    restart: unless-stopped
+
+  backend-app:
+    container_name: backend-app
+    image: backend-app:latest
+    links:
+      - mysql-quick
+    depends_on:
+      - mysql-quick
+
+    environment:
+      - DATABASE_HOST=mysql-quick
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=Project123
+      - DATABASE_NAME=demotest
+      - DATABASE_PORT=3306
+
+    ports:
+      - 80:80
+    expose:
+      - 80
+    logging:
+      driver: json-file
+
+            

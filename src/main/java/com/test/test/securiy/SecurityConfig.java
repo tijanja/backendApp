@@ -4,6 +4,7 @@ import com.test.test.filter.RequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,9 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.DELETE,"/api/user/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/user/").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
+
                 .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
