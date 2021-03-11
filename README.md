@@ -93,6 +93,6 @@ RESPONSE:
 
 ### To view Swagger 2 API docs
 
-Run the server and browse to [http://3.209.193.90:9999/swagger-ui.html](http://3.209.193.90:9999/swagger-ui.html)
+Visit this link to access the API documentation [http://3.209.193.90:9999/swagger-ui.html](http://3.209.193.90:9999/swagger-ui.html)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/99078fa85ec8482cab88a1cee4cde9af)](https://www.codacy.com/gh/tijanja/backendApp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tijanja/backendApp&amp;utm_campaign=Badge_Grade)
