@@ -1,6 +1,6 @@
 # Spring Boot Backend App Project
 
-This is a sample Java / Gradle / Spring Boot (version 1.0) application. An appication that has a feature for the creation and managment of a user account.
+This is a sample Java / Gradle / Spring Boot (version 2.4) application. An appication that has a feature for the creation and managment of a user account.
 
 ## How to Run
 
